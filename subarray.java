@@ -6,7 +6,7 @@ public class subarray {
     public static void main(String[] args) {
         int [] arr = {2, 3, 5, 1, 9};
         long k = 10;
-        int len = getLongestSubarrayHashmap(arr, k);
+        int len = getLongestSubarrayTwoPointer(arr, k);
         System.err.println("the length of longest subarray is " + len );
     }
 
@@ -55,5 +55,33 @@ public class subarray {
         }return maxLen;
     }
 
+    public static int getLongestSubarrayTwoPointer(int[] arr, long k) {
+        int right = 0;
+        int left = 0;
+        int n = arr.length;
+        int maxLen = 0;
+        long sum = 0;
+    
+        while (right < n) {
+            // Add the current right element to the sum
+            sum += arr[right];
+    
+            // Shrink the window from the left until the sum is less than or equal to k
+            while (sum > k && left <= right) {
+                sum -= arr[left];
+                left++;
+            }
+    
+            // Check if we have a sum equal to k
+            if (sum == k) {
+                maxLen = Math.max(maxLen, right - left + 1);
+            }
+    
+            // Move the right pointer to expand the window
+            right++;
+        }
+    
+        return maxLen;
+    }
     
 }
